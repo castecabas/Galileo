@@ -1,15 +1,39 @@
 import { Request, Response } from 'express';
 import { prisma } from "../Libs/prisma"
 import { libros } from '@prisma/client';
-import { isNull } from 'util';
 
 // METODOS - LOGICA 
 
 export const ConsultarLibros = async (req: Request, res: Response) => {
     try {
-        let lista_libros: libros[] = await prisma.libros.findMany()
+        let lista_libros: libros[] = await prisma.libros.findMany(
+            {
+                include:
+                {
+                    Rel_categorias: true,
+                    Rel_autores: true,
+                }
+            })
 
         if (lista_libros.length > 0) {
+
+            let datos = [["Isbn", "Titulo", "Genero", "Año", "Paginas", "Idioma", "Editorial", "Categoria", "Autores"]];
+
+            lista_libros.forEach(libro => {
+                datos.push([
+                    libro.isbn,
+                    libro.titulo,
+                    libro.genero,
+                    libro.publicacion,
+                    libro.paginas,
+                    libro.idioma,
+                    libro.editorial,
+                    (libro as any).Rel_categorias,
+                    (libro as any).Rel_autores
+                ])
+            })
+
+            console.log("lista de libros : Correcto")
             return res.status(200).json(lista_libros);
         }
     }
@@ -32,8 +56,8 @@ export const ConsultarLibroPorID = async (req: Request, res: Response) => {
         if (libro != null) {
             return res.status(200).json(libro);
         }
-        else{
-            return res.status(404).json({message:"Libro no encontrado"});
+        else {
+            return res.status(404).json({ message: "Libro no encontrado" });
         }
 
     } catch (e) {
@@ -47,7 +71,7 @@ export const CrearLibro = async (req: Request, res: Response) => {
     //verificar body
     console.log(req.body);
     // asignar variable rapidamente del Body
-    const { titulo, genero, publicacion, paginas, idioma, editorial } = req.body;
+    const { titulo, genero, publicacion, paginas, idioma, editorial, idCategoria, idAutor } = req.body;
     try {
 
         let Rta = await prisma.libros.create({
@@ -57,7 +81,9 @@ export const CrearLibro = async (req: Request, res: Response) => {
                 publicacion: publicacion,
                 paginas: paginas,
                 idioma: idioma,
-                editorial: editorial
+                editorial: editorial,
+                idCategoria: idCategoria,
+                idAutor: idAutor,
             }
         })
         console.log(Rta);
@@ -88,10 +114,10 @@ export const EliminarLibroPorID = async (req: Request, res: Response) => {
         })
 
         if (libro != null) {
-            return res.status(200).json({message:"Libro Eliminado con Exito"});
+            return res.status(200).json({ message: "Libro Eliminado con Exito" });
         }
-        else{
-            return res.status(404).json({message:"Libro no encontrado"});
+        else {
+            return res.status(404).json({ message: "Libro no encontrado" });
         }
 
     } catch (e) {

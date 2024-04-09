@@ -2,6 +2,8 @@ import express from "express";
 import cors from 'cors';
 // importar rutas
 import LibrosRoutes from './Routes/Libros.routes';
+import CategoriasRoutes from './Routes/Categorias.routes';
+import AutoresRoutes from './Routes/Autores.routes';
 // ---
 
 const app = express();
@@ -10,6 +12,8 @@ app.use(express.json());
 
 // asignar rutas
 app.use('/biblioteca',LibrosRoutes);
+app.use('/biblioteca',CategoriasRoutes);
+app.use('/biblioteca',AutoresRoutes);
 // ---
 
 app.use((req, res, next) => {

@@ -10,15 +10,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/castecabas/Biblioteca_Galileo.git"
+    "type": "",
+    "url": ""
   },
   "author": "Carlos_cardenas",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/castecabas/Biblioteca_Galileo/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/castecabas/Biblioteca_Galileo#readme",
+  "homepage": "",
   "dependencies": {
     "@prisma/client": "^5.12.1",
     "cors": "^2.8.5",

@@ -21,4 +21,28 @@ model libros {
   paginas         Int?     @db.SmallInt
   idioma          String? @db.VarChar(20)
   editorial       String? @db.VarChar(30)
+
+  idCategoria     Int?
+  Rel_categorias  categorias?  @relation(fields: [idCategoria],references: [id])
+
+  idAutor         Int?
+  Rel_autores     autores?     @relation(fields: [idAutor],references: [id])
+}
+
+model categorias{
+  id              Int     @id @default(autoincrement())
+  nombre          String? @db.VarChar(20)
+  descripcion     String? @db.VarChar(100)
+
+  libros          libros[]
+}
+
+model autores{
+  id              Int     @id @default(autoincrement())
+  nombre          String? @db.VarChar(30)
+  apellido        String? @db.VarChar(30)
+  nacionalidad    String? @db.VarChar(60)
+  fecha_nacimiento String? @db.VarChar(10)
+
+  libros          libros[]
 }
