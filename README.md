@@ -4,3 +4,5 @@ npm i express
 npm i
 
 npm run dev
+
+npx prisma db push {Actualizar base de datos desde el schema.prisma}
