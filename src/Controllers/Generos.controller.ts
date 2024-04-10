@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import { prisma } from "../Libs/prisma"
-import { categorias } from '@prisma/client';
+import { generos } from '@prisma/client';
 
-export const ConsultarCategorias = async (req:Request,res:Response)=>{
+export const ConsultarGeneros = async (req:Request,res:Response)=>{
     try {
         
-        let lista_categorias = await prisma.categorias.findMany();
+        let lista_generos = await prisma.generos.findMany();
 
-        if(lista_categorias.length > 0){
-            res.status(200).json(lista_categorias);
+        if(lista_generos.length > 0){
+            res.status(200).json(lista_generos);
         }
         else{
             res.status(200).json({mensaje:"No se ha encontrado datos"})
@@ -20,14 +20,14 @@ export const ConsultarCategorias = async (req:Request,res:Response)=>{
     }
 }
 
-export const CrearCategoria = async (req: Request, res: Response) => {
+export const CrearGenero = async (req: Request, res: Response) => {
 
     console.log(req.body);
     // asignar variable rapidamente del Body
     const { id,nombre,descripcion} = req.body;
     try {
 
-        let Rta = await prisma.categorias.create({
+        let Rta = await prisma.generos.create({
             data: {
                 id:id,
                 nombre:nombre,
@@ -35,12 +35,12 @@ export const CrearCategoria = async (req: Request, res: Response) => {
             }
         })
         console.log(Rta);
-        return res.status(200).json({ mensaje: "Se ha creado la categoria correctamente" });
+        return res.status(200).json({ mensaje: "Se ha creado el genero correctamente" });
 
     } catch (error: unknown) {
         if (error instanceof Error && 'code' in error && 'sqlMessage' in error) {
             if (error.code == "ER_DUP_ENTRY") {
-                return res.status(500).json({ mensaje: "Categoria_ID ya existe" });
+                return res.status(500).json({ mensaje: "Genero_ID ya existe" });
             } else {
                 return res.status(500).json({ mensaje: error.sqlMessage });
             }
@@ -51,21 +51,21 @@ export const CrearCategoria = async (req: Request, res: Response) => {
     }
 }
 
-export const EliminarCategoriaoPorID = async (req: Request, res: Response) => {
+export const EliminarGeneroPorID = async (req: Request, res: Response) => {
     try {
         const ID = parseInt(req.params.id);
 
-        let libro = await prisma.categorias.delete({
+        let libro = await prisma.generos.delete({
             where: {
                 id:ID
             }
         })
 
         if (libro != null) {
-            return res.status(200).json({message:"Categoria Eliminado con Exito"});
+            return res.status(200).json({message:"Genero Eliminado con Exito"});
         }
         else{
-            return res.status(404).json({message:"Categoria no encontrado"});
+            return res.status(404).json({message:"Genero no encontrado"});
         }
 
     } catch (e) {

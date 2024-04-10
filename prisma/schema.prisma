@@ -14,35 +14,60 @@ datasource db {
 }
 
 model libros {
-  isbn            Int     @id @default(autoincrement())
-  titulo          String?  @db.VarChar(60)
-  genero          String? @db.VarChar(40)
-  publicacion     Int?    @db.SmallInt
-  paginas         Int?     @db.SmallInt
-  idioma          String? @db.VarChar(20)
-  editorial       String? @db.VarChar(30)
+  isbn        Int     @id @default(autoincrement())
+  titulo      String? @db.VarChar(60)
+  categoria   String? @db.VarChar(40)
+  publicacion Int?    @db.SmallInt
+  paginas     Int?    @db.SmallInt
+  idioma      String? @db.VarChar(20)
+  editorial   String? @db.VarChar(30)
 
-  idCategoria     Int?
-  Rel_categorias  categorias?  @relation(fields: [idCategoria],references: [id])
+  idGenero    Int?
+  Rel_generos generos? @relation(fields: [idGenero], references: [id])
 
-  idAutor         Int?
-  Rel_autores     autores?     @relation(fields: [idAutor],references: [id])
+  idAutor     Int?
+  Rel_autores autores? @relation(fields: [idAutor], references: [id])
+
+  prestamos prestamos[]
 }
 
-model categorias{
-  id              Int     @id @default(autoincrement())
-  nombre          String? @db.VarChar(20)
-  descripcion     String? @db.VarChar(100)
+model generos {
+  id          Int     @id @default(autoincrement())
+  nombre      String? @db.VarChar(20)
+  descripcion String? @db.VarChar(100)
 
-  libros          libros[]
+  libros libros[]
 }
 
-model autores{
-  id              Int     @id @default(autoincrement())
-  nombre          String? @db.VarChar(30)
-  apellido        String? @db.VarChar(30)
-  nacionalidad    String? @db.VarChar(60)
+model autores {
+  id               Int     @id @default(autoincrement())
+  nombre           String? @db.VarChar(30)
+  apellido         String? @db.VarChar(30)
+  nacionalidad     String? @db.VarChar(60)
   fecha_nacimiento String? @db.VarChar(10)
 
-  libros          libros[]
+  libros libros[]
+}
+
+model prestamos {
+  id            Int     @id @default(autoincrement())
+  fecha_inicial String? @db.VarChar(10)
+  fecha_entrega String? @db.VarChar(10)
+
+  idLibro    Int?
+  Rel_libros libros? @relation(fields: [idLibro], references: [isbn])
+
+  clientes clientes[]
+}
+
+model clientes {
+  id             Int      @id @default(autoincrement())
+  nombre         String   @db.VarChar(50)
+  apellido       String   @db.VarChar(50)
+  direccion      String   @db.VarChar(80)
+  telefono       String   @db.VarChar(12)
+  fecha_registro DateTime @default(now()) @db.Date()
+
+  idPrestamo   Int?
+  Rel_prestamo prestamos? @relation(fields: [idPrestamo], references: [id])
 }
