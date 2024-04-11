@@ -38,7 +38,7 @@ export const ConsultarLibros = async (req: Request, res: Response) => {
             return res.status(200).json(lista_libros);
         }
         else{
-            return res.status(500).json({mensaje:"No se ha encontrado lista de libros"});
+            return res.status(404).json({mensaje:"No se ha encontrado lista de libros"});
         }
     }
     catch (e) {
