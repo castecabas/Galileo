@@ -6,6 +6,9 @@ import GenerosRoutes from './Routes/Generos.routes';
 import AutoresRoutes from './Routes/Autores.routes';
 import PrestamosRoutes from './Routes/Prestamos.routes';
 import ClientesRoutes from './Routes/Clientes.routes';
+
+import MotivosRoutes from './Routes/Motivos.routes';
+import MultasRoutes from './Routes/Multas.routes';
 // ---
 
 const app = express();
@@ -18,6 +21,8 @@ app.use('/biblioteca',GenerosRoutes);
 app.use('/biblioteca',AutoresRoutes);
 app.use('/biblioteca',PrestamosRoutes);
 app.use('/biblioteca',ClientesRoutes);
+app.use('/biblioteca',MotivosRoutes);
+app.use('/biblioteca',MultasRoutes);
 // ---
 
 app.use((req, res, next) => {

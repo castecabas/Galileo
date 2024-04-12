@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// region Libros
 model libros {
   isbn        Int     @id @default(autoincrement())
   titulo      String? @db.VarChar(60)
@@ -30,7 +31,7 @@ model libros {
 
   prestamos prestamos[]
 }
-
+// region Generos
 model generos {
   id          Int     @id @default(autoincrement())
   nombre      String? @db.VarChar(20)
@@ -39,6 +40,7 @@ model generos {
   libros libros[]
 }
 
+// region Autores
 model autores {
   id               Int     @id @default(autoincrement())
   nombre           String? @db.VarChar(30)
@@ -49,6 +51,7 @@ model autores {
   libros libros[]
 }
 
+// region Prestamos
 model prestamos {
   id            Int     @id @default(autoincrement())
   fecha_inicial String? @db.VarChar(10)
@@ -60,6 +63,7 @@ model prestamos {
   clientes clientes[]
 }
 
+// region Clientes
 model clientes {
   id             Int      @id @default(autoincrement())
   nombre         String   @db.VarChar(50)
@@ -70,4 +74,28 @@ model clientes {
 
   idPrestamo   Int?
   Rel_prestamo prestamos? @relation(fields: [idPrestamo], references: [id])
+
+  multas          multas[]
+}
+
+// region Multas
+model multas {
+  id             Int      @id @default(autoincrement())
+  monto          Int      @db.MediumInt
+  fecha_aplicada DateTime @default(now()) @db.DateTime()
+
+  idCliente   Int?
+  Rel_cliente  clientes? @relation(fields: [idCliente],references: [id])
+
+  idMotivo    Int?
+  Rel_motivo  motivos? @relation(fields: [idMotivo],references: [id])
+}
+
+// region Motivos
+model motivos{
+  id             Int      @id @default(autoincrement())
+  nombre         String   @db.VarChar(50)
+  descripcion    String   @db.VarChar(200)
+
+  multas         multas[]
 }

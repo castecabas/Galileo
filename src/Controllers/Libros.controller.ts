@@ -2,6 +2,7 @@
 import { Request, Response } from 'express';
 import { prisma } from "../Libs/prisma"
 import { libros ,autores,generos} from '@prisma/client';
+import { empty } from '@prisma/client/runtime/library';
 
 // #region GET-ALL
 export const ConsultarLibros = async (req: Request, res: Response) => {
@@ -121,6 +122,17 @@ export const ModificarLibroPorID = async (req: Request, res: Response) => {
     try {
         const{titulo,categoria,publicacion,paginas,idioma,editorial,idGenero,idAutor} = req.body;
         const ID = parseInt(req.params.id);
+
+        // validacion de ID foraneas
+        const autorExistente = await verificarAutorExistente(idAutor);
+        const generoExistente = await verificarGeneroExistente(idGenero);
+        if (!autorExistente) {
+            return res.status(500).json({ mensaje: "El ID del autor no existe para asignarlo" });
+        }
+        if (!generoExistente) {
+            return res.status(500).json({ mensaje: "El ID del género no existe para asignarlo" });
+        }
+
         let Rta = await prisma.libros.update({
             where:{
                 isbn:ID
@@ -136,8 +148,13 @@ export const ModificarLibroPorID = async (req: Request, res: Response) => {
                 idAutor:idAutor 
             }
         })
-        console.log(Rta);
-        return res.status(200).json({ mensaje: "Se ha actualizado el libro correctamente" });
+        
+        if (Rta) {
+            return res.status(200).json({ mensaje: "Se ha actualizado el libro correctamente" });
+        } else {
+            return res.status(404).json({ message: "Libro no encontrado" });
+        }
+
     } catch (e) {
         return res.status(500).json({ message: `Se ha producido un error , error=> ${e}` })
     }

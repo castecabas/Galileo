@@ -12,7 +12,7 @@ export const ConsultarPrestamos = async (req: Request, res: Response) => {
                 include:
                 {
                     Rel_libros: true,
-                    // clientes:true
+                    clientes: true
                 }
             }
         )

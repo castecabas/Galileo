@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../Libs/prisma';
-import { clientes,prestamos } from '@prisma/client'
+import { clientes,prestamos ,multas,motivos} from '@prisma/client'
 
 export const ConsultarClientes = async (req: Request, res: Response) => {
 
@@ -9,7 +9,8 @@ export const ConsultarClientes = async (req: Request, res: Response) => {
             {
                 include:
                 {
-                    Rel_prestamo:true
+                    Rel_prestamo:true,
+                    multas:true
                 }
             }
         )
