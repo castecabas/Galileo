@@ -24,6 +24,9 @@ app.use('/biblioteca',ClientesRoutes);
 app.use('/biblioteca',MotivosRoutes);
 app.use('/biblioteca',MultasRoutes);
 // ---
+app.get("/biblioteca", (req, res) => {
+    res.sendFile(__dirname + "/Templates/index.html");
+  });
 
 app.use((req, res, next) => {
     res.status(404).json({ message: 'Ruta no encontrada' })
