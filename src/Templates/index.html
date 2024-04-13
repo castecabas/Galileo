@@ -26,6 +26,11 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        section p {
+            padding: 30px;
+            text-align: center;
+        }
+
         .notification-btn {
             padding: 10px 20px;
             background-color: #0099ff;
@@ -49,8 +54,17 @@
             padding: 5px;
         }
 
-        ul.footer li {
+        footer ul {
+            justify-content: center;
+            text-align: center;
+        }
+
+        footer ul li {
             padding: 20px;
+        }
+
+        footer ul li h3 {
+            font-weight: 600;
         }
     </style>
 </head>
@@ -75,7 +89,6 @@
                 quod, maxime excepturi, necessitatibus aspernatur accusantium
                 placeat praesentium sequi deleniti magni velit a et quam.</p>
         </article>
-        <br>
         <article>
             <button class="notification-btn" onclick="showNotification()">Mostrar comandos (Endpoints)</button>
         </article>
@@ -97,6 +110,10 @@
             <li>
                 <h3>Utilizado con</h3>
                 NodeJS,Prisma,Cors,MySQL & Express
+            </li>
+            <li>
+                <h3>Aviso</h3>
+                Toda informacion mostrada fueron creados con un fin practico.
             </li>
         </ul>
     </footer>
