@@ -8,7 +8,7 @@ Este proyecto da mis primeros pasos en el manejo de NodeJs ,posee lo siguiente:
 * Mysql
 * NodeJS
 
-#Tener en Cuenta
+# Tener en Cuenta
 
 instalar todo posee en git.ignore
 
